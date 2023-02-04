@@ -1,10 +1,7 @@
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include"Struct.h"
-
-
 
 void input(char** string) {
 	int N = 256;
@@ -29,10 +26,9 @@ int choice_(int choice) {
 	return choice;
 }
 
-
 void output(char string[][40]) {
 	for (int i = 0; i < 11; i++) {
-		printf("\t%s\n", string[i]);
+		printf("%s\n", string[i]);
 	}
 }
 
@@ -51,7 +47,6 @@ void show_club_info(Team* club, char* pattern) {
 		}
 	}
 }
-
 
 void main_info(Team club) {
 	printf("\n----- MAIN INFO: -----\n");
@@ -86,19 +81,19 @@ void find_another_team() {
 
 int menu(Team club) {
 	int choice = 0;
-
+	printf("\n------------- MENU -------------\n");
 	printf("1 - Main info about %s\n", club.club_name);
 	printf("2 - Line up of %s\n", club.club_name);
 	printf("3 - Trophies of %s\n", club.club_name);
 	printf("4 - Find another club\n");
 	printf("5 - Exit\n");
+	printf("---------------------------------\n");
 	printf("Your choice: ");
 	choice = choice_(choice);
 	switch (choice) {
 	case 1:
 		main_info(club);
 		menu(club);
-
 	case 2:
 		lineup(club);
 		menu(club);
@@ -124,16 +119,10 @@ int find_pattern(char* str, char* ptr) {
 	return 0;
 }
 
-
-
-
-
-
 int main() {
 	char* pattern;
 	printf("Enter the name of the EPL season 22/23 team you want to get information about: ");
 	input(&pattern);
 	show_club_info(Club, pattern);
-
 	return 0;
 }
