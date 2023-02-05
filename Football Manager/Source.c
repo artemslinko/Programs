@@ -20,7 +20,7 @@ void input(char** string) {
 
 int choice_(int choice) {
 	while (scanf_s("%d", &choice) == 0 || choice <= 0 || choice > 5 || getchar() != '\n') {
-		printf("\nYou need to write 1 - 5: ");
+		printf("\nYou need to pick 1 - 5: ");
 		rewind(stdin);
 	}
 	return choice;
@@ -29,22 +29,6 @@ int choice_(int choice) {
 void output(char string[][40]) {
 	for (int i = 0; i < 11; i++) {
 		printf("%s\n", string[i]);
-	}
-}
-
-void printClub(Team club) {
-	int choice = 0;
-	printf("\n----- RESULT OF SEARCH: -----\n");
-	printf("%s\n", club.club_name);
-	printf("-----------------------------\n");
-	menu(club);
-}
-
-void show_club_info(Team* club, char* pattern) {
-	for (int i = 0; i < 20; i++) {
-		if (find_pattern(club[i].club_name, pattern)) {
-			printClub(club[i]);
-		}
 	}
 }
 
@@ -63,20 +47,78 @@ void lineup(Team club) {
 }
 
 void trophies(Team club) {
-	printf("\n----- TROPHIES: -----\n");
-	printf("English Premier League (EFL): %d\n", club.EPL);
-	printf("UEFA Champions League: %d\n", club.UCL);
-	printf("UEFA Europa League: %d\n", club.UEL);
-	printf("FA Cup: %d\n", club.FACups);
-	printf("Carabao Cup: %d\n", club.CarabaoCup);
-	printf("----------------------\n");
+	if (club.id == 1) {
+		printf("\n----- TROPHIES: -----\n");
+		printf("English Premier League (EFL): %d\n", club.LeagueCup);
+		printf("UEFA Champions League: %d\n", club.UCL);
+		printf("UEFA Europa League: %d\n", club.UEL);
+		printf("FA Cup: %d\n", club.CountryCup);
+		printf("Carabao Cup: %d\n", club.ContinentalCup);
+		printf("----------------------\n");
+	}
+	else if (club.id == 2) {
+		printf("\n----- TROPHIES: -----\n");
+		printf("LaLiga: %d\n", club.LeagueCup);
+		printf("UEFA Champions League: %d\n", club.UCL);
+		printf("UEFA Europa League: %d\n", club.UEL);
+		printf("Spain Cup: %d\n", club.CountryCup);
+		printf("King Cup: %d\n", club.ContinentalCup);
+		printf("----------------------\n");
+	}
+	else if (club.id == 3) {
+		printf("\n----- TROPHIES: -----\n");
+		printf("Scudetto: %d\n", club.LeagueCup);
+		printf("UEFA Champions League: %d\n", club.UCL);
+		printf("UEFA Europa League: %d\n", club.UEL);
+		printf("Copa Italia: %d\n", club.CountryCup);
+		printf("Italy cup: %d\n", club.ContinentalCup);
+		printf("----------------------\n");
+	}
+	else if (club.id == 4) {
+		printf("\n----- TROPHIES: -----\n");
+		printf("Bundesliga: %d\n", club.LeagueCup);
+		printf("UEFA Champions League: %d\n", club.UCL);
+		printf("UEFA Europa League: %d\n", club.UEL);
+		printf("Germany Cup: %d\n", club.CountryCup);
+		printf("Cup of Germany: %d\n", club.ContinentalCup);
+		printf("----------------------\n");
+	}
+	else if (club.id == 5) {
+		printf("\n----- TROPHIES: -----\n");
+		printf("Ligue 1: %d\n", club.LeagueCup);
+		printf("UEFA Champions League: %d\n", club.UCL);
+		printf("UEFA Europa League: %d\n", club.UEL);
+		printf("French Cup: %d\n", club.CountryCup);
+		printf("Cup of French: %d\n", club.ContinentalCup);
+		printf("----------------------\n");
+	}
 }
 
-void find_another_team() {
+void not_found() {
+	printf("\nTHE ENTERED CLUB WASNT FOUND\n");
+	printf("\n----------------------\n");
+	printf("1 - Find a club again\n");
+	printf("2 - Exit\n");
+	printf("----------------------\n");
+	printf("Your choice: ");
+}
+
+void find_team() {
+	int choice = 0;
 	char* pattern;
-	printf("\nEnter the name of the EPL season 22/23 team you want to get information about: ");
+	printf("\nEnter the name of the EPL/La Liga/Seria A/Bundesliga/Ligue1 season 22/23 team you want to get information about: ");
 	input(&pattern);
-	show_club_info(Club, pattern);
+	show_club_info(pattern);
+	if (show_club_info(pattern) == -1) {
+		not_found();
+		choice = choice_(choice);
+		switch (choice) {
+		case 1:
+			find_team();
+		case 2:
+			exit(0);
+		}
+	}
 }
 
 int menu(Team club) {
@@ -101,10 +143,18 @@ int menu(Team club) {
 		trophies(club);
 		menu(club);
 	case 4:
-		find_another_team();
+		find_team();
 	case 5:
 		exit(0);
 	}
+}
+
+void print_club(Team club) {
+	int choice = 0;
+	printf("\n----- RESULT OF SEARCH: -----\n");
+	printf("%s\n", club.club_name);
+	printf("-----------------------------\n");
+	menu(club);
 }
 
 int find_pattern(char* str, char* ptr) {
@@ -119,10 +169,41 @@ int find_pattern(char* str, char* ptr) {
 	return 0;
 }
 
+int show_club_info(char* pattern) {
+	for (int i = 0; i < 20; i++) {
+		if (find_pattern(EPL[i].club_name, pattern)) {
+			print_club(EPL[i]);
+			break;
+		}
+	}
+	for (int i = 0; i < 20; i++) {
+		if (find_pattern(LaLiga[i].club_name, pattern)) {
+			print_club(LaLiga[i]);
+			break;
+		}
+	}
+	for (int i = 0; i < 20; i++) {
+		if (find_pattern(SerieA[i].club_name, pattern)) {
+			print_club(SerieA[i]);
+			break;
+		}
+	}
+	for (int i = 0; i < 18; i++) {
+		if (find_pattern(Bundesliga[i].club_name, pattern)) {
+			print_club(Bundesliga[i]);
+			break;
+		}
+	}
+	for (int i = 0; i < 20; i++) {
+		if (find_pattern(Ligue1[i].club_name, pattern)) {
+			print_club(Ligue1[i]);
+			break;
+		}
+	}
+	return -1;
+}
+
 int main() {
-	char* pattern;
-	printf("Enter the name of the EPL season 22/23 team you want to get information about: ");
-	input(&pattern);
-	show_club_info(Club, pattern);
+	find_team();
 	return 0;
 }
